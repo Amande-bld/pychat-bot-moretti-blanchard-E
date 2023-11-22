@@ -1,0 +1,16 @@
+#Le mot text est à remplacer par le nom du fichier
+
+def word_occurrences(text):
+    # Initialiser un dictionnaire pour stocker les occurrences de mots
+    word_count = {}
+
+    # Diviser le discours en série de mots
+    words = text.split()
+
+    # Compter la fréquence de chaque mot
+    for word in words:
+        # Mettre à jour le dictionnaire à chaque fréquence.
+        if word:
+            word_count[word] = word_count.get(word, 0) + 1
+
+    return word_count
