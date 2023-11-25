@@ -52,7 +52,7 @@ def convert_file_lower_case(files_names,directory):
                         line_mod += car
                     # Ligne transformer en minuscule réecrite dans la copie 
                     copy.write(line_mod)
-                    ligne = content.readline()
+                    line = content.readline()
 
 
 def replacement_punctuation_(files_names):

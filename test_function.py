@@ -14,3 +14,9 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     display_list_president(dictionary_president)
+
+if __name__ == '__main__':
+    convert_file_lower_case(files_names, directory)
+
+if __name__ == '__main__':
+    replacement_punctuation_(files_names)
