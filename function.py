@@ -33,6 +33,8 @@ def display_list_president(dictionary_president):
         print(name)
 
 
+# fonction pour convertir fichier
+
 def replacement_punctuation_(files_names):
     for file_name in files_names:
         input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
@@ -58,7 +60,7 @@ def replacement_punctuation_(files_names):
 
 
 #Le mot text est à remplacer par le nom du fichier
-def word_occurrences(text):
+def word_occurrences_tf(text):
     # Initialiser un dictionnaire pour stocker les occurrences de mots
     word_count = {}
 
@@ -72,3 +74,4 @@ def word_occurrences(text):
             word_count[word] = word_count.get(word, 0) + 1
 
     return word_count
+
