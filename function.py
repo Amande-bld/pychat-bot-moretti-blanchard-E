@@ -54,30 +54,6 @@ def convert_file_lower_case(files_names,directory):
                     copy.write(line_mod)
                     ligne = content.readline()
 
-                    
-def replacement_punctuation_(files_names):
-    for file_name in files_names:
-        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
-        with open(input_file_path, 'r') as f1:
-            content = f1.read()
-            punctuation_character = ',;:.?!""()[]*/'
-            text_clean = ''
-            for car in content:
-                if car in punctuation_character:
-                    text_clean += ' '
-                elif car == "'" or car == "-":
-                    text_clean += ' '
-                else:
-                    text_clean += car
-        with open(input_file_path, "w") as file_clean:
-            file_clean.write(text_clean)
-
-
-
-
-
-
-
 
 def replacement_punctuation_(files_names):
     for file_name in files_names:
@@ -95,12 +71,6 @@ def replacement_punctuation_(files_names):
                     text_clean += car
         with open(input_file_path, "w") as file_clean:
             file_clean.write(text_clean)
-
-
-
-
-
-
 
 
 #Le mot text est à remplacer par le nom du fichier
