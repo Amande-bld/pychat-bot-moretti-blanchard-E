@@ -74,7 +74,7 @@ def replacement_punctuation_(files_names):
 
 
 #Le mot text est à remplacer par le nom du fichier
-def word_occurrences(text):
+def word_occurrences_tf(text):
     # Initialiser un dictionnaire pour stocker les occurrences de mots
     word_count = {}
 
@@ -88,3 +88,28 @@ def word_occurrences(text):
             word_count[word] = word_count.get(word, 0) + 1
 
     return word_count
+
+
+import math
+
+
+def idf(files_names):
+    nb_files = 0
+    occurence_totale = {}
+    for file_name in files_names:
+        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_file_path, 'r') as f:
+            content = f.read()
+            occurence_fichier = word_occurrences_tf(content)
+            nb_files = nb_files + 1
+
+            for (mot, occurence) in occurence_fichier.items():
+                if mot in occurence_totale:
+                    occurence_totale[mot] += 1
+                else:
+                    occurence_totale[mot] = 1
+
+    occurrence_idf = {}
+    for (mot, occurence) in occurence_totale.items():
+        occurrence_idf[mot] = math.log((nb_files / (occurence)) + 1)
+    return occurrence_idf
