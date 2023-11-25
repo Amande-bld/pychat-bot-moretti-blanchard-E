@@ -5,9 +5,12 @@ if __name__ == '__main__':
     print(files_names)
 
 if __name__ == '__main__':
-    good_names = extractions_name(files_names)
-    print(good_names)
+    lastname_clean = extractions_name(files_names)
+    print(lastname_clean)
 
 if __name__ == '__main__':
-    print(association_prénom(good_names))
-    dico_prenoms = association_prénom(good_names)
+    print(association_lastname_firstname(lastname_clean))
+    dictionary_president = association_lastname_firstname(lastname_clean)
+
+if __name__ == '__main__':
+    display_list_president(dictionary_president)
