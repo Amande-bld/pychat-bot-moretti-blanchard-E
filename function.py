@@ -33,6 +33,30 @@ def display_list_president(dictionary_president):
         print(name)
 
 
+def replacement_punctuation_(files_names):
+    for file_name in files_names:
+        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_file_path, 'r') as f1:
+            content = f1.read()
+            punctuation_character = ',;:.?!""()[]*/'
+            text_clean = ''
+            for car in content:
+                if car in punctuation_character:
+                    text_clean += ' '
+                elif car == "'" or car == "-":
+                    text_clean += ' '
+                else:
+                    text_clean += car
+        with open(input_file_path, "w") as file_clean:
+            file_clean.write(text_clean)
+
+
+
+
+
+
+
+
 #Le mot text est à remplacer par le nom du fichier
 def word_occurrences(text):
     # Initialiser un dictionnaire pour stocker les occurrences de mots
