@@ -20,3 +20,12 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     replacement_punctuation_(files_names)
+
+if __name__ == '__main__':
+    for file_name in files_names:
+        fichier_entrer = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(fichier_entrer, 'r') as f:
+            contenu = f.read()
+            print(word_occurrences_tf(contenu))
+if __name__ == '__main__':
+    print(idf(files_names))
