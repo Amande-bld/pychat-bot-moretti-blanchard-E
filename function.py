@@ -32,6 +32,52 @@ def display_list_president(dictionary_president):
     for name in dictionary_president.keys():
         print(name)
 
+def convert_file_lower_case(files_names,directory):
+    for file_name in files_names :
+        # Création chemin d'acces du fichier 
+        input_file_path = directory + '/' + file_name
+        # Ouverture fichier 
+        with open(input_file_path,'r') as content:
+            #Création chemin ou sera rangé le fichier modifier 
+            output_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+            #Ouverture fichie copie
+            with open(output_file_path, 'a') as copy:
+                # modification des majusucles en miniscule 
+                line = content.readline()
+                while line != '':
+                    line_mod =''
+                    for car in line :
+                        if car >= 'A' and car <= 'Z':
+                            car = chr(ord(car)+ 32 )
+                        line_mod += car
+                    # Ligne transformer en minuscule réecrite dans la copie 
+                    copy.write(line_mod)
+                    ligne = content.readline()
+
+                    
+def replacement_punctuation_(files_names):
+    for file_name in files_names:
+        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_file_path, 'r') as f1:
+            content = f1.read()
+            punctuation_character = ',;:.?!""()[]*/'
+            text_clean = ''
+            for car in content:
+                if car in punctuation_character:
+                    text_clean += ' '
+                elif car == "'" or car == "-":
+                    text_clean += ' '
+                else:
+                    text_clean += car
+        with open(input_file_path, "w") as file_clean:
+            file_clean.write(text_clean)
+
+
+
+
+
+
+
 
 #Le mot text est à remplacer par le nom du fichier
 def word_occurrences(text):
