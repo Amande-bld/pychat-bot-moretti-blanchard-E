@@ -5,6 +5,15 @@
 
 https://github.com/Cathaleya-10/pychat-bot-moretti-blanchard-E/blob/master
 
-https://github.com/Cathaleya-10/pychat-bot-moretti-blanchard-E/blob/master/test_function.py
+Fonctionnement du Programme :
 
-https://github.com/Cathaleya-10/pychat-bot-moretti-blanchard-E/blob/master/main.py
+main.py
+- Fichier permettant d'appeler les fonctions de notre fichier function.py
+- Sert d'interface au projet
+
+function.py 
+- Regroupe l'ensemble des fonctions permettant le fonctionnement du projet
+
+Les dossiers speeches & cleaned
+- Le premier stock tous les fichiers que nous utilisons dans notre programme
+- Le deuxième stock ces mêmes fichiers, mais sans ponctuations et majuscules.
