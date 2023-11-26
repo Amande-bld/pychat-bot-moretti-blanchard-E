@@ -11,7 +11,7 @@ main.py
 - Fichier permettant d'appeler les fonctions de notre fichier function.py
 - Sert d'interface au projet
 
-function.py 
+function.py
 
 -> Regroupe l'ensemble des fonctions permettant le fonctionnement du projet : 
 
