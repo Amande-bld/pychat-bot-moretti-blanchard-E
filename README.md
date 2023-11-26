@@ -12,7 +12,9 @@ main.py
 - Sert d'interface au projet
 
 function.py 
+
 -> Regroupe l'ensemble des fonctions permettant le fonctionnement du projet : 
+
 Fonctions de base :
 - list_of_files permet de faire une liste avec le chemin d'accès de chaque fichiers du dossier speeches
 - extractions_name est utilisé pour extraire le nom de famille du président contenu dans le nom du fichier text
