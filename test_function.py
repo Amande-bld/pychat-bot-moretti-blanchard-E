@@ -27,5 +27,12 @@ if __name__ == '__main__':
         with open(fichier_entrer, 'r') as f:
             contenu = f.read()
             print(word_occurrences_tf(contenu))
+
 if __name__ == '__main__':
     print(idf(files_names))
+
+if __name__ == '__main__':
+
+    matrice = TD_IDF(files_names)
+    for item in matrice:
+        print(item)
