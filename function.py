@@ -121,3 +121,159 @@ def idf(files_names):
         # Associe pour chaque mot son score IDF en faisant le logarithme du nombre de fichier / le nombre de fois qu'il apparait dans un fichier
         occurrence_idf[word] = math.log((nb_files / (occurence)) + 1)
     return occurrence_idf  # retourne un dictionnaire qui a chaque mots associe son score idf.
+
+
+    # Fonctionalité 1 permettant de trouver les mots les moins importants
+def score_tdf_idf_nulle(tf_idf_transposed, words_list):
+    mots_non_importants = []
+
+    for i in range(len(words_list)):
+        # Vérifie si le TD-IDF est égal à 0 pour tous les fichiers
+        td_idf_zero = True
+        j = 0
+        while j < len(tf_idf_transposed[i]) and td_idf_zero:
+            if tf_idf_transposed[i][j] != 0:
+                td_idf_zero = False
+            j += 1
+
+        if td_idf_zero:
+            mots_non_importants.append(words_list[i])
+
+    return mots_non_importants
+
+#Foonctionalité 2 permettant d'obtenir les mots avec le score + eleve
+
+"""def most_important_word(files_names, tf_idf_matrix, words_list):
+    unique_words_set = set()
+
+    for file_name in files_names:
+        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_file_path, 'r') as f:
+            content = f.read()
+            words = content.split()
+            unique_words_set.update(words)
+
+    unique_words_list = list(unique_words_set)
+    most_important_words = []
+
+    for i in range(len(tf_idf_matrix[0])):
+        max_score = 0
+        most_important_word = None
+        for j in range(len(tf_idf_matrix)):
+            if tf_idf_matrix[j][i] > max_score:
+                max_score = tf_idf_matrix[j][i]
+                most_important_word = unique_words_list[j]
+
+        if most_important_word is not None:
+            most_important_words.append(most_important_word)
+
+    return most_important_words """
+
+
+
+
+#Fonctionalité 3
+
+def word_occurrences_tf_per_president(files_names, president_last_name):
+    word_count = {}
+
+    for file_name in files_names:
+        if president_last_name.lower() in file_name.lower():
+            input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+            with open(input_file_path, 'r') as f:
+                content = f.read()
+                tf_scores = word_occurrences_tf(content)
+
+                for word, count in tf_scores.items():
+                    if word in word_count:
+                        word_count[word] += count
+                    else:
+                        word_count[word] = count
+
+    return word_count
+
+def list_trié(president_word_occurrences):
+    most_repeated_words = []
+    sorted_president_word_occurrences = list(president_word_occurrences.items())
+
+
+    for i in range(len(sorted_president_word_occurrences)):
+        for j in range(i + 1, len(sorted_president_word_occurrences)):
+            if sorted_president_word_occurrences[j][1] > sorted_president_word_occurrences[i][1]:
+                sorted_president_word_occurrences[i], sorted_president_word_occurrences[j] = \
+                sorted_president_word_occurrences[j], sorted_president_word_occurrences[i]
+
+    for i in range(len(sorted_president_word_occurrences)):
+        most_repeated_words.append(sorted_president_word_occurrences[i][0])
+
+    return most_repeated_words
+
+
+
+def first_president_to_mention_topic(files_names, target_words):
+    first_mention = {}
+
+    for president_last_name in ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']:
+        for file_name in files_names:
+            if president_last_name.lower() in file_name.lower():
+                input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+                with open(input_file_path, 'r') as f:
+                    content = f.read().lower()
+
+                    # Vérifier si le discours mentionne le thème
+                    for word in target_words:
+                        if word in content:
+                            if president_last_name not in first_mention:
+                                first_mention[president_last_name] = file_name
+
+    return first_mention # Retourne un dictionnaire qui a pour clé le nom de famille de president et comme valeur son nom de fichier
+
+def common_important_words_across_presidents(files_names, non_important_words):
+    president_words_dict = {}
+
+
+    presidents_to_consider = ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']
+
+
+    for president_last_name in presidents_to_consider:
+        president_words_dict[president_last_name] = []
+
+
+    for president_last_name in presidents_to_consider:
+        for file_name in files_names:
+
+            if president_last_name.lower() in file_name.lower():
+
+                input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+
+                with open(input_file_path, 'r') as f:
+                    content = f.read()
+
+                    words = content.split()
+                    filtered_words = []
+                    for word in words:
+                        if word not in non_important_words:
+                            filtered_words.append(word)
+                    for word in filtered_words:
+                            president_words_dict[president_last_name].append(word)
+
+    common_important_words = set()
+    for word in president_words_dict[presidents_to_consider[0]]:
+        common_important_words = set(list(common_important_words) + [word])  # Utiliser une liste puis convertir en ensemble
+
+    # Filtrer les mots communs avec les ensembles de mots des présidents suivants avec une boucle explicite
+    for president_last_name in presidents_to_consider[1:]:
+        current_president_words = set()
+        for word in president_words_dict[president_last_name]:
+            current_president_words = set(
+                list(current_president_words) + [word])  # Utiliser une liste puis convertir en ensemble
+
+        # Garder uniquement les mots communs avec une boucle explicite
+        common_important_words_temp = set()
+        for word in common_important_words:
+            if word in current_president_words:
+                common_important_words_temp = set(list(common_important_words_temp) + [word])  # Utiliser une liste puis convertir en ensemble
+
+        common_important_words = common_important_words_temp
+
+    return common_important_words
