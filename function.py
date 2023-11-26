@@ -88,7 +88,7 @@ def word_occurrences_tf(text):
         if word:
             word_count[word] = word_count.get(word, 0) + 1
 
-    return word_count
+    return word_count #Retourne le dictionnaire du texte avec chaque mots et sa fréquence
 
 
 import math
@@ -139,7 +139,7 @@ def score_tdf_idf_nulle(tf_idf_transposed, words_list):
         if td_idf_zero:
             mots_non_importants.append(words_list[i])
 
-    return mots_non_importants
+    return mots_non_importants #Retourne la liste des mots les moins importants des différents discours
 
 #Foonctionalité 2 permettant d'obtenir les mots avec le score + eleve
 
@@ -276,4 +276,4 @@ def common_important_words_across_presidents(files_names, non_important_words):
 
         common_important_words = common_important_words_temp
 
-    return common_important_words
+    return common_important_words #Retourne les mots importants cités par tous les présidents
