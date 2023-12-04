@@ -98,34 +98,33 @@ def word_occurrences_tf(text):
     return word_count
 
 
+def idf(files_names):  # A corriger
 
-def idf(files_names):
+    # Dictionnaire pour stocker le nombre de documents contenant chaque mot
+    documents_containing_word = {}
 
-    occurence_word_all_files = {}
+    # Nombre total de documents
+    total_documents = len(files_names)
+
+    # Compter le nombre de documents contenant chaque mot
     for file_name in files_names:
         input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
         with open(input_file_path, 'r') as f:
             content = f.read()
 
-            # Obtention du dictionnaire associant un mot au nombre de fois ou il apparait dans le fichier
-            occurence_files = word_occurrences_tf(content)
+            occurrence_files = word_occurrences_tf(content)
 
-
-            # Nous parcourons ensuite ce dictionnaire obtenus pour un fichier
-            for (word, occurence) in occurence_files.items():
-                if word in occurence_word_all_files:
-                    # Si le mot existe deja dans le dictionnaire regroupant tous les mots des fichiers on rajoute +1 a son compteur
-                    occurence_word_all_files[word] += 1
-                    # Sinon le mots n'existe pas déjà dans le dictionnaire alors on l'ajoute et on initialise son compteur a 1
+            for word in occurrence_files.keys():
+                if word in documents_containing_word:
+                    documents_containing_word[word] += 1
                 else:
-                    occurence_word_all_files[word] = 1
+                    documents_containing_word[word] = 1
 
-    # Apres avoir parcourus tous les fichier occurence totale représente un dictionnaire contenant tous les mots possible dans les fichiers avec le nombre de fois qu'il apparraissent dans ces documents
-    occurrence_idf = {}
-    for (word, occurence) in occurence_word_all_files.items():
-        # Associe pour chaque mot son score IDF en faisant le logarithme du nombre de fichier / le nombre de fois qu'il apparait dans un fichier
-        occurrence_idf[word] = math.log((len(files_names) / (occurence) + 1))
-    return occurrence_idf  # retourne un dictionnaire qui a chaque mots associe son score idf.
+    # Calculer l'IDF pour chaque mot
+    idf_scores = {}
+    for word, doc_count in documents_containing_word.items():
+        idf_scores[word] = math.log10(total_documents / (doc_count))
+    return idf_scores
 
 
 def TD_IDF(files_names: str) -> list[list]:
@@ -154,7 +153,6 @@ def TD_IDF(files_names: str) -> list[list]:
                 else:
                     tf_score = 0
                 idf_score = idf_scores[word]
-                # Arrondie du resultat
                 tf_idf_row.append(round(idf_score * tf_score, 2))
             tf_idf.append(tf_idf_row)
 
@@ -177,14 +175,12 @@ def mots_non_importants(files_names):
     tf_idf_matrix = TD_IDF(files_names)
 
     non_important = []
-    # Permet de vérifier que sur toute la ligne que la valeur de l'idf est diffèrente de la valeur minimun donné
     for row in tf_idf_matrix:
-        zero = True
-        for value in row[1:]:
-            if value != 0.6931471805599453:
-                zero = False
-        # Si c'est vrai on l'ajoute à la liste des mots non importants
-        if zero:
+        i = 1
+        while i < len(row) and row[i] <= 0:
+            i += 1
+
+        if i == len(row):
             non_important.append(row[0])
 
     return non_important
@@ -214,7 +210,7 @@ def most_important_word(tf_idf_matrix):
     # Tout ce qui sont égal au maximun sont ajoutés à la liste
     for (mot, somme_score) in somme_scores.items():
         if somme_score == score_maximun:
-            most_important_word.append(word)
+            most_important_word.append(mot)
 
     return most_important_word  # Retourne une liste contenant tous les mots les plus importants
 
@@ -309,8 +305,7 @@ def common_important_words_across_presidents(files_names, non_important_words):
     for president_last_name in presidents_to_consider[1:]:
         current_president_words = set()
         for word in president_words_dict[president_last_name]:
-            current_president_words = set(
-                list(current_president_words) + [word])
+            current_president_words = set(list(current_president_words) + [word])
 
         # Garde  les mots communs
         common_important_words_temp = set()

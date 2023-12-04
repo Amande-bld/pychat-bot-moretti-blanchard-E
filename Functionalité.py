@@ -8,7 +8,6 @@ if __name__ == '__main__':
     # Fonctionalité 1
 
     print("Les mots les moins importants sont :", mots_non_importants(files_names))
-
     # Fonctionalité 2
 
     print("Le(s) mots les plus importants sont :", most_important_word(tf_idf_matrix))
@@ -78,5 +77,4 @@ if __name__ == '__main__':
     non_important_words = mots_non_importants(files_names)
     common_words = common_important_words_across_presidents(files_names, non_important_words)
 
-    if common_words:
-        print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
+    print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
