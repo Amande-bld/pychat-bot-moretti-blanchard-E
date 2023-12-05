@@ -24,7 +24,7 @@ Fonctions de base :
 Fonction TF-IDF :
 - word_occurrences_tf calcule le score TF de chaque mots unique dans un texte donné
 - idf calcule l'IDF de chaque mots unique de l'ensemble des textes
-- tf-idf calcule le score TF-IDF de chaque mots par rapport à l'ensemble des fichiers
+- tf_idf calcule le score TF-IDF de chaque mots par rapport à l'ensemble des fichiers
 - score_tdf_idf_nulle sert à retourner les mots sans importances dans l'ensemble des discours (TF-IDF = 0)
 - most_important_word retourne la liste des mots les plus importants (TF-IDF le plus élevé)
 - word_occurrences_tf_per_president nous donne les mots les plus utilisés pour un président donné
