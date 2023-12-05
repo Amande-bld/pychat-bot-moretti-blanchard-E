@@ -425,3 +425,14 @@ def tokenisation_question(question):
         # Ajoute chaque mots dans une liste
         word_question.append(word)
     return word_question
+
+
+def mot_présence(files_names, word_question, mot_clés):
+    mot_clés = [] #liste des mots qui sont présent dans le corpus de mots des textes
+    #Parcours de l'ensemble des fichiers à la recherche des mots de la question
+    for file_name in files_names:
+        for word in file_name:
+            for word in word_question:
+                if word in file_name:
+                    word.append(mot_clés) #Ajout du mot à la liste des mots clés
+    return mot_clés
