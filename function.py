@@ -98,7 +98,7 @@ def word_occurrences_tf(text):
     return word_count
 
 
-def idf(files_names):  # A corriger
+def idf(files_names):
 
     # Dictionnaire pour stocker le nombre de documents contenant chaque mot
     documents_containing_word = {}
@@ -217,7 +217,7 @@ def most_important_word(tf_idf_matrix):
 
 # Fonctionalité 3
 
-def word_occurrences_tf_per_president(files_names, president_last_name):
+def word_occurrences_tf_per_president(files_names, president_last_name, mots_non_important):
     word_count = {}
 
     for file_name in files_names:
@@ -413,3 +413,15 @@ def main(directory, extension):
             print("Au revoir")
     else:
         print(" Veuillez choisir un chiffre entre 1-7")
+
+
+# Partie projet 2 :
+
+def tokenisation_question(question):
+    word_question = []
+    # Coupe la question en mots
+    contenu = question.split()
+    for word in contenu:
+        # Ajoute chaque mots dans une liste
+        word_question.append(word)
+    return word_question

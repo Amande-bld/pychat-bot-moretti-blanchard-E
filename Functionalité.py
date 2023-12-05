@@ -17,7 +17,8 @@ if __name__ == '__main__':
     print("Veuillez saisir un nom de président parmi : {}".format(
         association_lastname_firstname(extractions_name(files_names), )))
     president_last_name = input()
-    president_word_occurrences = word_occurrences_tf_per_president(files_names, president_last_name)
+    president_word_occurrences = word_occurrences_tf_per_president(files_names, president_last_name,
+                                                                   mots_non_importants(files_names))
     most_repeat_tri = list_trié(president_word_occurrences)
     print("Le(s) mot(s) le(s) plus répété(s) par le président", president_last_name, "sont:", most_repeat_tri)
 
