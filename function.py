@@ -418,3 +418,28 @@ def main(directory, extension):
             print("Au revoir")
     else:
         print(" Veuillez choisir un chiffre entre 1-7")
+
+def convert_file_lower_case(question):
+    question = int(input("Bonjour, quelle est votre question ? :"))
+    for i in len(question) :
+        for car in question :
+            if car >= 'A' and car <= 'Z':
+                car = chr(ord(car)+ 32 )
+
+def replacement_punctuation_(question):
+     # définition des caractères de ponctuations
+    punctuation_character = ',;:.?!""()[]*/'
+    text_clean = ''
+    # Verification des caractères un par un
+    for car in question:
+        if car in punctuation_character:
+            text_clean += ' '
+        elif car == "'" or car == "-":
+            text_clean += ' '
+        else:
+            text_clean += car
+
+def list_question(text_clean):
+    #Création de la liste de mots qui compose la question
+    for i in len(text_clean):
+        list_question = question.split()
