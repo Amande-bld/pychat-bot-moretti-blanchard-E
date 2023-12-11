@@ -1,4 +1,5 @@
 from function import *
+
 directory = "./speeches"
 if __name__ == '__main__':
     files_names = list_of_files(directory, "txt")
@@ -27,6 +28,7 @@ for file_name in files_names:
     with open(fichier_entrer, 'r') as f:
         contenu = f.read()
         print(word_occurrences_tf(contenu))
+
 # idf
 print(idf(files_names))
 
@@ -41,6 +43,5 @@ word_question = tokenisation_question(question)
 print(word_question)
 
 # document dans lequel mot apparait
-
-res = search_wordsquestion_in_files(word_question, files_names)
+res = mot_présence(files_names, word_question)
 print(res)

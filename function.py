@@ -25,8 +25,7 @@ def extractions_name (files_names):
 
 def association_lastname_firstname(lastnames_clean):
     dictionary_president = {'Chirac': 'Jacques', 'Giscard dEstaing': 'Valéry', 'Hollande': 'François',
-                            'Macron': 'Emmanuel',
-               'Mitterrand': 'François', 'Sarkozy': 'Nicolas'}
+                            'Macron': 'Emmanuel', 'Mitterrand': 'François', 'Sarkozy': 'Nicolas'}
     for name in lastnames_clean:
         name = dictionary_president[name] + ' ' + name
     return dictionary_president  # Retourne un dictionnaire associant la clé (nom de famille du président ) a son prénom
@@ -119,6 +118,7 @@ def idf(files_names):
                     documents_containing_word[word] += 1
                 else:
                     documents_containing_word[word] = 1
+        print(documents_containing_word)
 
     # Calculer l'IDF pour chaque mot
     idf_scores = {}
@@ -190,19 +190,24 @@ def mots_non_importants(files_names):
 def most_important_word(tf_idf_matrix):
     somme_scores = {}
     most_important_word = []
+
     # Calcul le td-idf total du mot
+    # On initialise pour chaque ligne la somme a 0 + mot concerné
     for lines in tf_idf_matrix:
         word = lines[0]
         somme_score = 0
 
+        # Permet de parcourir la ligne sans le mot
         for score in lines[1:]:
             somme_score += score
-
+        # Si le mot est déja dans le dictionnaire on ajoute la nouvelle somme de la ligne
         if word in somme_scores:
             somme_scores[word] += somme_score
+        # Sinon on ajoute le mot au dictionnaire
         else:
             somme_scores[word] = somme_score
-    # Compare les scores td-idf afin de savoir qu'elle est le plus grand
+
+    # Compare les scores td-idf afin de savoir lequel est le plus grand
     score_maximun = 0
     for somme_score in somme_scores.values():
         if somme_score > score_maximun:
@@ -212,65 +217,108 @@ def most_important_word(tf_idf_matrix):
         if somme_score == score_maximun:
             most_important_word.append(mot)
 
-    return most_important_word  # Retourne une liste contenant tous les mots les plus importants
+    return most_important_word  # Retourne une liste contenant le mot le plus important
 
 
 # Fonctionalité 3
 
-def word_occurrences_tf_per_president(files_names, president_last_name, mots_non_important):
+def word_per_president(files_names, president_last_name):
     word_count = {}
 
     for file_name in files_names:
         if president_last_name.lower() in file_name.lower():
+            # Créer le chemin d'accès
             input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+            # Ouvre un fichier
             with open(input_file_path, 'r') as f:
                 content = f.read()
+                # Permet de récupèrer le nombre de fois que les mots apparraissent dans le discours
                 tf_scores = word_occurrences_tf(content)
-
-                for word, count in tf_scores.items():
+                # obtiens un dico contenant le nombre de fois que chaque mot apprait dans les deux dico
+                for (word, count) in tf_scores.items():
                     if word in word_count:
                         word_count[word] += count
                     else:
                         word_count[word] = count
-
     return word_count
 
 
-def list_trié(president_word_occurrences):
-    most_repeated_words = []
-    sorted_president_word_occurrences = list(president_word_occurrences.items())
-
-    for i in range(len(sorted_president_word_occurrences)):
-        for j in range(i + 1, len(sorted_president_word_occurrences)):
-            if sorted_president_word_occurrences[j][1] > sorted_president_word_occurrences[i][1]:
-                sorted_president_word_occurrences[i], sorted_president_word_occurrences[j] = \
-                sorted_president_word_occurrences[j], sorted_president_word_occurrences[i]
-
-    for i in range(len(sorted_president_word_occurrences)):
-        most_repeated_words.append(sorted_president_word_occurrences[i][0])
-
-    return most_repeated_words
+def mots_trie(word_count, files_names):
+    no_import_word = mots_non_importants(files_names)
+    for word in list(word_count.keys()):
+        if word in no_import_word:
+            del word_count[word]
+    return word_count
 
 
+def mots_plus_repeter(word_count):
+    president_most_important = []
+    tf_plus_grand = 0
+    for value in word_count.values():
+        if value > tf_plus_grand:
+            tf_plus_grand = value
+    for (word, count) in word_count.items():
+        if count >= tf_plus_grand:
+            president_most_important.append(word)
+
+    return president_most_important
+
+
+# Fonctionalité 4
+
+def president_to_mention_topic(files_names, target_words):
+    mention = {}
+
+    for president_last_name in extractions_name(files_names):
+        for file_name in files_names:
+            input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+            with open(input_file_path, 'r') as f:
+                content = f.read()
+
+                # Vérifier si le discours mentionne le thème
+                for word in target_words:
+                    if word in content:
+                        if president_last_name not in mention:
+                            mention[president_last_name] = file_name
+
+    return mention  # Retourne un dictionnaire qui a pour clé le nom de famille de president et comme valeur son nom de fichier
+
+
+def president_speak_about_the_most_topic(files_names, target_word, mention):
+    nation_word_occurrences = {}
+    president_word_occurrences = {}
+
+    for president_last_name in mention:
+        president_word_occurrences[president_last_name] = word_per_president(files_names, president_last_name)
+
+    nation_word_president = []
+
+    for president_last_name, occurrences in president_word_occurrences.items():
+        if target_word in occurrences:
+            nation_word_president.append(president_last_name)
+
+    return nation_word_president
+
+
+# Fonctionalité 5
 def first_president_to_mention_topic(files_names, target_words):
     first_mention = {}
-    # Récupère discours du fichier
-    for president_last_name in ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']:
-        for file_name in files_names:
-            if president_last_name.lower() in file_name.lower():
-                input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
-                with open(input_file_path, 'r') as f:
-                    content = f.read().lower()
 
-                    # Vérifier si le discours mentionne le thème
-                    for word in target_words:
-                        if word in content:
-                            if president_last_name not in first_mention:
-                                first_mention[president_last_name] = file_name
+    for file_name in files_names:
+        input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_file_path, 'r') as f:
+            content = f.read()
 
-    return first_mention  # Retourne un dictionnaire qui a pour clé le nom de famille de president et comme valeur son nom de fichier
+            # Vérifier si le discours mentionne le thème
+            for word in target_words:
+                if word in content:
+                    if file_name not in first_mention:
+                        first_mention[file_name] = file_name
+
+    return first_mention
 
 
+# Fonctionalité 6
 def common_important_words_across_presidents(files_names, non_important_words):
     president_words_dict = {}
 
@@ -412,7 +460,7 @@ def main(directory, extension):
         elif choix == "7":
             print("Au revoir")
     else:
-        print(" Veuillez choisir un chiffre entre 1-7")
+        print("Veuillez choisir un chiffre entre 1-7")
 
 
 # Partie projet 2 :
@@ -427,7 +475,7 @@ def tokenisation_question(question):
     return word_question
 
 
-def mot_présence(files_names, word_question, mot_clés):
+def mot_présence(files_names, word_question):
     mot_clés = [] #liste des mots qui sont présent dans le corpus de mots des textes
     #Parcours de l'ensemble des fichiers à la recherche des mots de la question
     for file_name in files_names:
