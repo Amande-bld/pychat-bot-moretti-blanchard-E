@@ -515,7 +515,8 @@ def calculation_vector_question(word_question,files_names):
 
     for word in idf_scores:
         if word in word_question:
-        #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+        #word_question : list contenant les mots de la question
+        #files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
             tf_score = tf_scores[word]
             idf_score = idf_scores[word]
         else :
@@ -561,7 +562,8 @@ def tf_idf_non_transposed(files_names):
 #scalar_product_calculation : fonction qui permet de calculer le produit scalaire entre deux vecteur
 def scalar_product_calculation(vector_tf_idf_question,vector_tf_idf_corpus):
     sum = 0
-    #vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question , vector-tf_idf_corpus : correspond aux valeur de tous les lots d'un documents
+    #vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question
+    #vector-tf_idf_corpus : correspond aux valeur de tous les lots d'un documents
     for i in range(len(vector_tf_idf_question)):
         product = vector_tf_idf_question[i] * vector_tf_idf_corpus[i]
         sum += product
