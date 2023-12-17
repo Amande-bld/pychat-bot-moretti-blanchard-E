@@ -8,7 +8,7 @@ tf_idf_matrix = TD_IDF_transposed(files_names)
 if __name__ == '__main__':
     # Fonctionalité 1
 
-    print("Les mots les moins importants sont :", non_important_words(files_names))
+    print("Les mots les moins importants sont :", non_important_words_doc(files_names))
 
     # Fonctionalité 2
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     target_word = target_word.lower()
     # si on met un espace en plus lors de la saisie du mot recherché out of range
     mention = president_to_mention_topic(files_names, target_word)
-    print("Les présidents qui ont parlé de nation sont :", list(mention.keys()))
+    print("Les présidents qui ont parlé de ", target_word, " sont :", list(mention.keys()))
 
     for president_last_name in mention:
         word_count[president_last_name] = word_per_president(files_names, president_last_name)
