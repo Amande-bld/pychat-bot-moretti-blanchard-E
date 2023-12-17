@@ -529,6 +529,7 @@ def calculation_vector_question(word_question,files_names):
 
 #files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
 def tf_idf_non_transposed(files_names):
+#tf_idf_non_transposée : fonction qui recalcule de la matrice tf-idf-document sans qu'elle soit transposée
     tf_idf = []
     idf_scores = idf(files_names)
 
