@@ -591,3 +591,17 @@ def calculus_smiliratité(vector_tf_idf_question, matrix_non_transposed, files_n
         smilarities[document_name] = smilarity
 
     return smilarities
+
+
+# document_mmore_relevant : fonction qui permet de trouver le document avec le plus grands score de smiliraité avec le vecteur tf_idf de la question
+# vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+def document_more_relevant(matrix_non_tranposed, vector_tf_idf_question, files_names):
+    similarities = calculus_smiliratité(vector_tf_idf_question, matrix_non_tranposed, files_names)
+    max = 0
+    for (files_names, values) in similarities.items():
+        if values > max:
+            max = values
+            document_more_relevant = files_names
+            document_more_relevant_original = files_names.split("copie.txt")
+
+    return document_more_relevant, document_more_relevant_original[0]
