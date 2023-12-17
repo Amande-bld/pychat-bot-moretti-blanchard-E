@@ -515,7 +515,8 @@ def calculation_vector_question(word_question,files_names):
 
     for word in idf_scores:
         if word in word_question:
-        #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+        #word_question : list contenant les mots de la question
+        #files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
             tf_score = tf_scores[word]
             idf_score = idf_scores[word]
         else :
@@ -556,3 +557,22 @@ def tf_idf_non_transposed(files_names):
                 tf_idf_row.append(round(idf_score * tf_score, 2))
             tf_idf.append(tf_idf_row)
     return tf_idf #retourne la même matrice td_idf sauf qu'en colonne nous avons les mots du corpus et en lignes nous avons les documents
+
+
+#scalar_product_calculation : fonction qui permet de calculer le produit scalaire entre deux vecteur
+def scalar_product_calculation(vector_tf_idf_question,vector_tf_idf_corpus):
+    sum = 0
+    #vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question
+    #vector-tf_idf_corpus : correspond aux valeur de tous les lots d'un documents
+    for i in range(len(vector_tf_idf_question)):
+        product = vector_tf_idf_question[i] * vector_tf_idf_corpus[i]
+        sum += product
+    return sum
+
+#calculation_norm_vector : permet de calculer la norme d'un vecteur
+def calculation_norm_vector(vector):
+    sum = 0
+    for value in vector:
+        sum += (value**2)
+    norm_vector = math.sqrt(sum)
+    return norm_vector #retourne la norme du vecteur
