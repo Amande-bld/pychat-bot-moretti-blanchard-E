@@ -45,7 +45,7 @@ Partie 2 :
 - calculus_smiliratité permet de calculer la similarité du vecteur de la question avec celui de tous les documents du corpus
 - document_more_relevant est la fonction qui indique le document le plus pertinent pour répondre à la question posée
 - most_important_words_in_question calcule le mot le plus important de la question, qui en général correspond au thème de la question posée
-
+- generation_question retourne la réponse la plus pertinente à la question posée
 
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
