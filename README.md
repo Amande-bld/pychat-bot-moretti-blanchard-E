@@ -42,6 +42,10 @@ Partie 2 :
 - tf_idf_non_transposed retourne la même matrice sans la transposition
 - scalar_product_calculation calcule le produit scalaire de deux vecteurs
 - calculation_norm_vector nous permet d'obtenir la norme d'un vecteur
+- calculus_smiliratité permet de calculer la similarité du vecteur de la question avec celui de tous les documents du corpus
+- document_more_relevant est la fonction qui indique le document le plus pertinent pour répondre à la question posée
+- most_important_words_in_question calcule le mot le plus important de la question, qui en générale correspond au thème de la question posée
+
 
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
