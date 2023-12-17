@@ -420,11 +420,11 @@ def main(directory, extension):
         choix = input("Choisissez une option du menu (1-6): ")
 
         if choix == "1":
-            non_import_words = word_non_importants(files_names)
+            non_import_words = non_important_words(files_names)
             print("Les mots avec un score idf nulles sont :", non_import_words)
 
         elif choix == "2":
-            td_idf_matrix = _matrix = TD_IDF(files_names)
+            td_idf_matrix = _matrix = TD_IDF_transposed(files_names)
             important_words = most_important_word(td_idf_matrix)
             print("Les mots les plus importants sont :", important_words)
 
@@ -453,7 +453,7 @@ def main(directory, extension):
 
         elif choix == "6":
             print("Fonction qui permet de savoir tous les mots que les préidents ont dit .")
-            non_important_words = word_non_importants(files_names)
+            non_important_words = non_important_words(files_names)
             common_words = common_important_words_across_presidents(files_names, non_important_words)
             print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
 
@@ -643,3 +643,26 @@ def most_important_words_in_question(vector_tf_idf_question, list_word):
             max_tf_idf = tf_idf_score
             max_word = list_word[i]
     return max_word
+
+
+def generation_question(document_more_relevant_original, most_important_word):
+    input_files_path = "./speeches" + '/' + document_more_relevant_original
+    with open(input_files_path, "r", encoding='utf-8') as f1:
+        speech = f1.read()
+        # Divise le texte en une liste de pharse
+        content = speech.split(".")
+
+        position_word = -1
+        index = 0
+        while index < len(content) and position_word == -1:
+            # On trouve la position du mot dans la liste
+            if most_important_word in content[index]:
+                position_word = index
+            index += 1
+
+        if position_word == -1:
+            return None
+        # On retourne la phrase entière de l'indice
+        sentence = content[position_word]
+
+    return sentence
