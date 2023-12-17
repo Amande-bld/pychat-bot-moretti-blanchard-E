@@ -558,9 +558,10 @@ def tf_idf_non_transposed(files_names):
     return tf_idf #retourne la même matrice td_idf sauf qu'en colonne nous avons les mots du corpus et en lignes nous avons les documents
 
 
-    #scalar_product_calculation : fonction qui permet de calculer le produit scalaire entre deux vecteur
-    def scalar_product_calculation(vector_tf_idf_question,vector_tf_idf_corpus):
+#scalar_product_calculation : fonction qui permet de calculer le produit scalaire entre deux vecteur
+def scalar_product_calculation(vector_tf_idf_question,vector_tf_idf_corpus):
     sum = 0
+    #vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question , vector-tf_idf_corpus : correspond aux valeur de tous les lots d'un documents
     for i in range(len(vector_tf_idf_question)):
         product = vector_tf_idf_question[i] * vector_tf_idf_corpus[i]
         sum += product
@@ -572,4 +573,4 @@ def calculation_norm_vector(vector):
     for value in vector:
         sum += (value**2)
     norm_vector = math.sqrt(sum)
-    return norm_vector
+    return norm_vector #retourne la norme du vecteur
