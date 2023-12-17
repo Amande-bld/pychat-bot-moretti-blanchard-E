@@ -33,12 +33,11 @@ if __name__ == '__main__':
     sort_word_count = sort_words(word_count, files_names)
     most_repetated = words_more_repeat(sort_word_count)
     print("Le(s) mot(s) le(s) plus répété(s) par le président", president_last_name,
-          " hormis les mots non importants sont : ",
-          most_repetated)
+          " hormis les mots non importants sont : ", most_repetated)
 
     # Fonctionalité 4
 
-    target_word = input("Veuillez saisir le mot que vous souhiatez chercher : ")
+    target_word = input("Veuillez saisir le mot que vous souhaitez chercher : ")
     target_word = target_word.lower()
     # si on met un espace en plus lors de la saisie du mot recherché out of range
     mention = president_to_mention_topic(files_names, target_word)
