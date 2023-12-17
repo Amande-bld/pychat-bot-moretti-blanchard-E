@@ -605,3 +605,17 @@ def document_more_relevant(matrix_non_tranposed, vector_tf_idf_question, files_n
             document_more_relevant_original = files_names.split("copie.txt")
 
     return document_more_relevant, document_more_relevant_original[0]
+
+
+# most_important_words_in_question : fonction qui permet de trouver le mot avec le plus grand score tf_idf de la question
+# list_word = liste qui contient tous les mots du corpus, # vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question
+def most_important_words_in_question(vector_tf_idf_question, list_word):
+    max_tf_idf = 0
+
+    for i in range(len(vector_tf_idf_question)):
+        tf_idf_score = vector_tf_idf_question[i]
+
+        if tf_idf_score > max_tf_idf:
+            max_tf_idf = tf_idf_score
+            max_word = list_word[i]
+    return max_word
