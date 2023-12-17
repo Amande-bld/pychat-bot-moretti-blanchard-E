@@ -490,13 +490,13 @@ def tf_score_question(word_question,files_names):
     word_count_question = {}
     all_word = idf(files_names)
     for word in word_question :
+    #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
             if word in word_count_question:
                 word_count_question[word] += 1
             else:
                 word_count_question[word] = 1
 
     word_question_tf = {} 
-    #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
     for word in all_word:
         if word in word_count_question :
             word_question_tf[word] = word_count_question[word]
@@ -504,3 +504,24 @@ def tf_score_question(word_question,files_names):
             word_question_tf[word] = 0
 
     return word_question_tf
+
+def calculation_vector_question(word_question,files_names):
+#calculation_vector_question : fonction qui permet de calculer le vecteur tf_idf de la question 
+    idf_scores = idf(files_names)
+    # Des mots de la questions
+    tf_scores = tf_score_question(word_question,files_names)
+    tf_idf_questions=[]
+
+
+    for word in idf_scores:
+        if word in word_question:
+        #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+            tf_score = tf_scores[word]
+            idf_score = idf_scores[word]
+        else :
+            tf_score = 0
+            idf_score = 0
+
+        tf_idf_questions.append( round(idf_score * tf_score, 2))
+
+    return tf_idf_questions
