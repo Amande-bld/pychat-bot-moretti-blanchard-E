@@ -92,5 +92,5 @@ print(list_mot)
 word_more_important = most_important_words_in_question(vector_tf_idf_question, list_mot)
 print(word_more_important)
 
-sentence = generation_question(document_more_relevant_original, word_more_important)
+sentence = generation_question(document_more_relevant_original, word_more_important, question)
 print("la reponse est :", sentence)

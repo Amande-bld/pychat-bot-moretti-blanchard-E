@@ -193,7 +193,7 @@ def matrix_tranposee(matrix):
 
 # Fonctionalité 1 : non_important_words : fonction permettant de trouver les mots les moins importants du corpus ceux qui ont un score tf_idf < 0.
 # files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
-def non_important_words(files_names):
+def non_important_words_doc(files_names):
     tf_idf_matrix = TD_IDF_transposed(files_names)
 
     non_important = []
@@ -269,7 +269,7 @@ def word_per_president(files_names, president_last_name):
 # sort_words : permet d'enlever tous les mots non importants dans la liste des mots dits par le président choisis
 # word_count : dictionnaire associant le mot et le nombre de fois que le président le dit dans son ou ses discours , # files_names : obtenus de la fonction list_of_files liste qui contient
 def sort_words(word_count, files_names):
-    no_import_word = non_important_words(files_names)
+    no_import_word = non_important_words_doc(files_names)
     for word in list(word_count.keys()):
         if word in no_import_word:
             del word_count[word]
@@ -409,7 +409,7 @@ def afficher_menu():
     print("4. Indiquer quel est le president a voir parler de la Nation ")
     print("5. Indiquer le premier président à parler du climat et/ou de l’écologie ")
     print("6. Indique  le(s) mot(s) que tous les présidents ont évoqués hormis les moins importants")
-    print("7. Quitter")
+    print("7. Accès au chat-bot")
 
 
 def main(directory, extension):
@@ -417,11 +417,10 @@ def main(directory, extension):
 
     while True:
         afficher_menu()
-        choix = input("Choisissez une option du menu (1-6): ")
+        choix = input("Choisissez une option du menu (1-8): ")
 
         if choix == "1":
-            non_import_words = non_important_words(files_names)
-            print("Les mots avec un score idf nulles sont :", non_import_words)
+            print("Les mots les moins importants sont :", non_important_words_doc(files_names))
 
         elif choix == "2":
             td_idf_matrix = _matrix = TD_IDF_transposed(files_names)
@@ -429,21 +428,41 @@ def main(directory, extension):
             print("Les mots les plus importants sont :", important_words)
 
         elif choix == "3":
+            president = ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']
+            correct = False
+            while not correct:
+                president_last_name = input(
+                    "Veuillez choisir un nom de président parmis cette liste : Chirac, Giscard dEstaing, Hollande, Macron, Mitterrand, Sarkozy : ")
 
-            president_last_name = "Chirac"
+                if president_last_name in president:
+                    correct = True
+                else:
+                    print(
+                        "Le président que vous avez choisis ne fait pas partie de la liste. Veuillez en choisir un faisant partie de la liste")
+            print("Le président choisis est :", president_last_name)
+
             word_count = word_per_president(files_names, president_last_name)
-            word_count_trie = sort_words(word_count, files_names)
-            most_repetated = most_repetated(word_count_trie)
-            print("Le(s) mot(s) le(s) plus répété(s) par le président Chirac hormis les mots non importants sont",
-                  most_repetated)
+            sort_word_count = sort_words(word_count, files_names)
+            most_repetated = words_more_repeat(sort_word_count)
+            print("Le(s) mot(s) le(s) plus répété(s) par le président", president_last_name,
+                  " hormis les mots non importants sont : ", most_repetated)
+
+
 
         elif choix == "4":
-            president_last_name = "Chirac"
-            word_count = word_per_president(files_names, president_last_name)
-            word_count_trie = sort_words(word_count, files_names)
-            most_repetated = most_repetated(word_count_trie)
-            print("Le(s) mot(s) le(s) plus répété(s) par le président Chirac hormis les mots non importants sont",
-                  most_repetated)
+            target_word = input("Veuillez saisir le mot que vous souhaitez chercher : ")
+            target_word = target_word.lower()
+            # si on met un espace en plus lors de la saisie du mot recherché out of range
+            mention = president_to_mention_topic(files_names, target_word)
+            print("Les présidents qui ont parlé de'", target_word, " sont :", list(mention.keys()))
+
+            for president_last_name in mention:
+                word_count[president_last_name] = word_per_president(files_names, president_last_name)
+            most_repeated_president = list(president_speak_about_the_most_topic(files_names, target_word, mention))
+
+            print("Le président qui a répéter le plus de fois le mot", target_word, 'est le président',
+                  most_repeated_president[0])
+
 
         elif choix == "5":
             target_words = ['climat', 'écologie']
@@ -458,9 +477,23 @@ def main(directory, extension):
             print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
 
         elif choix == "7":
+            question = input("Quel est votre question ? ")
+            word_question = tokenization_question(question)
+            vector_tf_idf_question = calculation_vector_question(word_question, files_names)
+            list_mot = idf(files_names)
+            list_mot = list(list_mot.keys())
+            matrix_non_transposed = tf_idf_non_transposed(files_names)
+            word_more_important = most_important_words_in_question(vector_tf_idf_question, list_mot)
+            doc_more_relevant, document_more_relevant_original = document_more_relevant(matrix_non_transposed,
+                                                                                        vector_tf_idf_question,
+                                                                                        files_names)
+            sentence = generation_question(document_more_relevant_original, word_more_important, question)
+            print("la reponse est :", sentence)
+
+        elif choix == "8":
             print("Au revoir")
     else:
-        print("Veuillez choisir un chiffre entre 1-7")
+        print("Veuillez choisir un chiffre entre 1-8")
 
 
 # Partie projet 2 :
@@ -645,7 +678,8 @@ def most_important_words_in_question(vector_tf_idf_question, list_word):
     return max_word
 
 
-def generation_question(document_more_relevant_original, most_important_word):
+def generation_question(document_more_relevant_original, most_important_word, question):
+    question_starters = {"Comment": "Après analyse, ", "Pourquoi": "Car, ", "Peux-tu": "Oui, bien sûr!"}
     input_files_path = "./speeches" + '/' + document_more_relevant_original
     with open(input_files_path, "r", encoding='utf-8') as f1:
         speech = f1.read()
@@ -664,5 +698,7 @@ def generation_question(document_more_relevant_original, most_important_word):
             return None
         # On retourne la phrase entière de l'indice
         sentence = content[position_word]
+        word_question = question.split()
+        final_sentence = question_starters[word_question[0]] + sentence
 
-    return sentence
+    return final_sentence
