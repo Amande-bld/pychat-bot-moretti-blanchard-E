@@ -475,15 +475,15 @@ def tokenisation_question(question):
     return word_question
 
 
-def mot_présence(files_names, word_question):
-    mot_clés = [] #liste des mots qui sont présent dans le corpus de mots des textes
+def word_presence (files_names, word_question):
+    key_words = [] #liste des mots qui sont présent dans le corpus de mots des textes
     #Parcours de l'ensemble des fichiers à la recherche des mots de la question
     for file_name in files_names:
         for word in file_name:
             for word in word_question:
                 if word in file_name:
-                    word.append(mot_clés) #Ajout du mot à la liste des mots clés
-    return mot_clés
+                    word.append(key_words) #Ajout du mot à la liste des mots clés
+    return key_words
 
 def tf_score_question(word_question,files_names): 
 #tf_sccore_question : fonction qui permet de calculer le tf de chaque mot de la question, met un zero quand le mot n'est pas dans le corpus de document
