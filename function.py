@@ -576,3 +576,18 @@ def calculation_norm_vector(vector):
         sum += (value**2)
     norm_vector = math.sqrt(sum)
     return norm_vector #retourne la norme du vecteur
+
+
+# calculus_smiliratité : fonction qui permet de calculer la smiliratité du vecteur_tf_idf_question avec chaque document du corpus
+# vector_tf_idf_question : liste qui contient la valeur de tous les mots avec les scores de la question, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+def calculus_smiliratité(vector_tf_idf_question, matrix_non_transposed, files_names):
+    smilarities = {}
+    for i in range(1, len(matrix_non_transposed)):
+        vector_b = matrix_non_transposed[i]
+        dot_product_doc = scalar_product_calculation(vector_tf_idf_question, vector_b)
+        smilarity = dot_product_doc / (
+                    calculation_norm_vector(vector_tf_idf_question) * calculation_norm_vector(vector_b))
+        document_name = files_names[i - 1] + "copie.txt"
+        smilarities[document_name] = smilarity
+
+    return smilarities
