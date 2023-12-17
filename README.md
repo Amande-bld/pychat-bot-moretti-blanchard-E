@@ -15,6 +15,8 @@ function.py
 
 -> Regroupe l'ensemble des fonctions permettant le fonctionnement du projet : 
 
+Partie 1 :
+
 Fonctions de base :
 - list_of_files permet de faire une liste avec le chemin d'accès de chaque fichiers du dossier speeches
 - extractions_name est utilisé pour extraire le nom de famille du président contenu dans le nom du fichier text
@@ -31,6 +33,17 @@ Fonction TF-IDF :
 - first_president_to_mention_topic nous renseigne sur le premier président à mentionner un thème spécifique
 - common_important_words_across_presidents crée la liste de l'ensemble des mots les plus importants utilisés par tous les présidents 
 
+Partie 2 :
+
+- tokenisation_question permet de sectionner la question en mot et de les ajouter à une liste
+- word_presence permet de détecter les mots en commun entre le corpus et la liste
+- tf_score_question calcule le score TF des mots qui composent la question
+- calculation_vector_question est une fonction qui permet de calculer le vecteur TF-IDF des mots de la question
+- tf_idf_non_transposed retourne la même matrice sans la transposition
+- scalar_product_calculation calcule le produit scalaire de deux vecteurs
+- calculation_norm_vector nous permet d'obtenir la norme d'un vecteur
+
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
 - Le deuxième stock ces mêmes fichiers, mais sans ponctuations et majuscules.
+
