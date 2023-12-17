@@ -525,3 +525,34 @@ def calculation_vector_question(word_question,files_names):
         tf_idf_questions.append( round(idf_score * tf_score, 2))
 
     return tf_idf_questions
+
+
+#files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+def tf_idf_non_transposed(files_names):
+#tf_idf_non_transposée : fonction qui recalcule de la matrice tf-idf-document sans qu'elle soit transposée
+    tf_idf = []
+    idf_scores = idf(files_names)
+
+    tf_idf_row = []
+    for word in idf_scores.keys():
+        tf_idf_row.append(word)
+    tf_idf.append(tf_idf_row)
+
+    for file_name in files_names:
+        input_files_path = "./cleaned" + '/' + file_name + "copie.txt"
+        with open(input_files_path, 'r') as f:
+            content = f.read()
+
+            tf_scores = word_occurrences_tf(content)
+
+            tf_idf_row = []
+            for word in idf_scores.keys():
+
+                if word in tf_scores:
+                    tf_score = tf_scores[word]
+                else:
+                    tf_score = 0
+                idf_score = idf_scores[word]
+                tf_idf_row.append(round(idf_score * tf_score, 2))
+            tf_idf.append(tf_idf_row)
+    return tf_idf #retourne la même matrice td_idf sauf qu'en colonne nous avons les mots du corpus et en lignes nous avons les documents
