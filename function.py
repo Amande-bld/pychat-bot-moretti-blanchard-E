@@ -484,3 +484,23 @@ def mot_présence(files_names, word_question):
                 if word in file_name:
                     word.append(mot_clés) #Ajout du mot à la liste des mots clés
     return mot_clés
+
+def tf_score_question(word_question,files_names): 
+#tf_sccore_question : fonction qui permet de calculer le tf de chaque mot de la question, met un zero quand le mot n'est pas dans le corpus de document
+    word_count_question = {}
+    all_word = idf(files_names)
+    for word in word_question :
+            if word in word_count_question:
+                word_count_question[word] += 1
+            else:
+                word_count_question[word] = 1
+
+    word_question_tf = {} 
+    #word_question : list contenant les mots de la question =, files_names : obtenus de la fonction list_of_files liste qui contient tous les chemins d'accès de tous les documents
+    for word in all_word:
+        if word in word_count_question :
+            word_question_tf[word] = word_count_question[word]
+        else:
+            word_question_tf[word] = 0
+
+    return word_question_tf
