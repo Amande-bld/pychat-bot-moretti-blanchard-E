@@ -504,9 +504,6 @@ def main(directory, extension):
                                                                                             files_names)
                 sentence = generation_question(document_more_relevant_original, word_more_important, question)
                 print(sentence)
-
-
-
         elif choix == "8":
             print("Au revoir")
     else:
