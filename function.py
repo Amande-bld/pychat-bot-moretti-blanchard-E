@@ -353,52 +353,6 @@ def first_president_to_mention_topic(files_names, target_words):
     return first_mention
 
 
-# Fonctionalité 6
-def common_important_words_across_presidents(files_names, non_important_words):
-    president_words_dict = {}
-
-    presidents_to_consider = ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']
-
-    for president_last_name in presidents_to_consider:
-        president_words_dict[president_last_name] = []
-
-    for president_last_name in presidents_to_consider:
-        for file_name in files_names:
-
-            if president_last_name.lower() in file_name.lower():
-
-                input_file_path = "./cleaned" + '/' + file_name + "copie.txt"
-
-                with open(input_file_path, 'r') as f:
-                    content = f.read()
-
-                    words = content.split()
-                    filtered_words = []
-                    for word in words:
-                        if word not in non_important_words:
-                            filtered_words.append(word)
-                    for word in filtered_words:
-                        president_words_dict[president_last_name].append(word)
-
-    common_important_words = set()
-    for word in president_words_dict[presidents_to_consider[0]]:
-        common_important_words = set(list(common_important_words) + [word])
-
-    # Filtrer les mots communs avec les ensembles de mots des présidents suivants avec une boucle explicite
-    for president_last_name in presidents_to_consider[1:]:
-        current_president_words = set()
-        for word in president_words_dict[president_last_name]:
-            current_president_words = set(list(current_president_words) + [word])
-
-        # Garde  les mots communs
-        common_important_words_temp = set()
-        for word in common_important_words:
-            if word in current_president_words:
-                common_important_words_temp = set(list(common_important_words_temp) + [word])
-
-        common_important_words = common_important_words_temp
-
-    return common_important_words
 
 
 def another_question():
@@ -420,9 +374,8 @@ def afficher_menu():
     print("3. Indiquer le(s) mot(s)  le(s) plus répété(s) par un président")
     print("4. Indiquer quels sont les president a voir parler d'un sujet et celui qui en parlé le plus ")
     print("5. Indiquer le premier président à parler du climat et/ou de l’écologie ")
-    print("6. Indique  le(s) mot(s) que tous les présidents ont évoqués hormis les moins importants")
-    print("7. Accès au chat-bot")
-    print("8. Quitter")
+    print("6. Accès au chat-bot")
+    print("7. Quitter")
 
 
 def main(directory, extension):
@@ -486,13 +439,8 @@ def main(directory, extension):
             print("Le premier président a parler de", target_words, "est", first_mention[0])
 
         elif choix == "6":
-            print("Fonction qui permet de savoir tous les mots que les préidents ont dit .")
-            non_important_words = non_important_words_doc(files_names)
-            common_words = common_important_words_across_presidents(files_names, non_important_words)
-            print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
-
-        elif choix == "7":
-            while another_question():
+            continue_question = True
+            while continue_question:
                 question = input("Quel est votre question ? ")
                 word_question = tokenization_question(question)
                 vector_tf_idf_question = calculation_vector_question(word_question, files_names)
@@ -505,10 +453,11 @@ def main(directory, extension):
                                                                                             files_names)
                 sentence = generation_question(document_more_relevant_original, word_more_important, question)
                 print(sentence)
-        elif choix == "8":
+                continue_question = another_question()
+        elif choix == "7":
             print("Au revoir")
-    else:
-        print("Veuillez choisir un chiffre entre 1-8")
+        else:
+            print("Veuillez choisir un chiffre entre 1-7")
 
 
 # Partie projet 2 :
