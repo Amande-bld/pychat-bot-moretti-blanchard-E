@@ -395,7 +395,7 @@ def main(directory, extension):
     return_menu = True
     while return_menu:
         afficher_menu()
-        choix = input("Choisissez une option du menu (1-8): ")
+        choix = input("Choisissez une option du menu (1-7): ")
 
         if choix == "1":
             print("\nLes mots les moins importants sont :", non_important_words_doc(files_names), "\n")
@@ -660,7 +660,7 @@ def most_important_words_in_question(vector_tf_idf_question, list_word):
 def generation_question(document_more_relevant_original, most_important_word, question):
     question_starters = {"Comment": "Après analyse, ", "Pourquoi": "Car, ", "Peux-tu": "Oui, bien sûr!"}
     input_files_path = "./speeches" + '/' + document_more_relevant_original
-    with open(input_files_path, "r", encoding='utf-8') as f1:
+    with open(input_files_path, "r") as f1:
         speech = f1.read()
         # Divise le texte en une liste de pharse
         content = speech.split(".")
