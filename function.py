@@ -208,7 +208,7 @@ def non_important_words_doc(files_names):
     return non_important
 
 
-# Foonctionalité 2 : most_important_word : fonction permettant d'obtenir les mots avec le score + eleve parmis le corpus de document
+# Fonctionalité 2 : most_important_word : fonction permettant d'obtenir les mots avec le score + eleve parmis le corpus de document
 def most_important_word(tf_idf_matrix):
     sum_scores = {}
     most_important_word = []
@@ -401,12 +401,24 @@ def common_important_words_across_presidents(files_names, non_important_words):
     return common_important_words
 
 
+def another_question():
+    answer = input("Voulez vous poser une autre question ? (Oui/Non)")
+    answer_minuscule = answer.lower()
+    if answer_minuscule == "oui":
+        return True
+    elif answer_minuscule == "non":
+        return False
+    else:
+        print("Veuillez répondre par Oui ou par Non")
+
+
+
 def afficher_menu():
-    print("Menu Principal:")
+    print("Bienvenue dans le menu Principal:")
     print("1. Trouver les mots les moins importants")
     print("2. Obtenir les mots avec le score le plus élevé")
     print("3. Indiquer le(s) mot(s)  le(s) plus répété(s) par un président")
-    print("4. Indiquer quel est le president a voir parler de la Nation ")
+    print("4. Indiquer quels sont les president a voir parler d'un sujet et celui qui en parlé le plus ")
     print("5. Indiquer le premier président à parler du climat et/ou de l’écologie ")
     print("6. Indique  le(s) mot(s) que tous les présidents ont évoqués hormis les moins importants")
     print("7. Accès au chat-bot")
@@ -420,7 +432,9 @@ def main(directory, extension):
         choix = input("Choisissez une option du menu (1-8): ")
 
         if choix == "1":
+            print()
             print("Les mots les moins importants sont :", non_important_words_doc(files_names))
+            print()
 
         elif choix == "2":
             td_idf_matrix = _matrix = TD_IDF_transposed(files_names)
@@ -454,7 +468,7 @@ def main(directory, extension):
             target_word = target_word.lower()
             # si on met un espace en plus lors de la saisie du mot recherché out of range
             mention = president_to_mention_topic(files_names, target_word)
-            print("Les présidents qui ont parlé de'", target_word, " sont :", list(mention.keys()))
+            print("Les présidents qui ont parlé de ", target_word, " sont :", list(mention.keys()))
 
             for president_last_name in mention:
                 word_count[president_last_name] = word_per_president(files_names, president_last_name)
@@ -468,27 +482,30 @@ def main(directory, extension):
             target_words = ['climat', 'écologie']
             first_mention = first_president_to_mention_topic(files_names, target_words)
             first_mention = list(first_mention.keys())
-            print("Le premier président a parler de climat ou/et d'écologie est", first_mention[0])
+            print("Le premier président a parler de", target_words, "est", first_mention[0])
 
         elif choix == "6":
             print("Fonction qui permet de savoir tous les mots que les préidents ont dit .")
-            non_important_words = non_important_words(files_names)
+            non_important_words = non_important_words_doc(files_names)
             common_words = common_important_words_across_presidents(files_names, non_important_words)
             print("Mots évoqués par tous les présidents (hormis les mots non importants) :", common_words)
 
         elif choix == "7":
-            question = input("Quel est votre question ? ")
-            word_question = tokenization_question(question)
-            vector_tf_idf_question = calculation_vector_question(word_question, files_names)
-            list_mot = idf(files_names)
-            list_mot = list(list_mot.keys())
-            matrix_non_transposed = tf_idf_non_transposed(files_names)
-            word_more_important = most_important_words_in_question(vector_tf_idf_question, list_mot)
-            doc_more_relevant, document_more_relevant_original = document_more_relevant(matrix_non_transposed,
-                                                                                        vector_tf_idf_question,
-                                                                                        files_names)
-            sentence = generation_question(document_more_relevant_original, word_more_important, question)
-            print("la reponse est :", sentence)
+            while another_question():
+                question = input("Quel est votre question ? ")
+                word_question = tokenization_question(question)
+                vector_tf_idf_question = calculation_vector_question(word_question, files_names)
+                list_mot = idf(files_names)
+                list_mot = list(list_mot.keys())
+                matrix_non_transposed = tf_idf_non_transposed(files_names)
+                word_more_important = most_important_words_in_question(vector_tf_idf_question, list_mot)
+                doc_more_relevant, document_more_relevant_original = document_more_relevant(matrix_non_transposed,
+                                                                                            vector_tf_idf_question,
+                                                                                            files_names)
+                sentence = generation_question(document_more_relevant_original, word_more_important, question)
+                print(sentence)
+
+
 
         elif choix == "8":
             print("Au revoir")
@@ -699,6 +716,9 @@ def generation_question(document_more_relevant_original, most_important_word, qu
         # On retourne la phrase entière de l'indice
         sentence = content[position_word]
         word_question = question.split()
-        final_sentence = question_starters[word_question[0]] + sentence
+        if word_question[0] in question_starters:
+            final_sentence = question_starters[word_question[0]] + sentence
+        else:
+            final_sentence = sentence
 
     return final_sentence

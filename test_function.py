@@ -9,11 +9,11 @@ from function import *
 directory = "./speeches"
 if __name__ == '__main__':
     files_names = list_of_files(directory, "txt")
-    print(files_names)
+    print("La liste des noms du ficher sont : ", files_names)
 
 # Lastname clean
 lastname_clean = extractions_name(files_names)
-print(lastname_clean)
+print("La liste des noms de familles sont : ", lastname_clean)
 
 # Association lastname => name
 print(association_lastname_firstname(lastname_clean))
@@ -29,14 +29,18 @@ convert_file_lower_case(files_names, directory)
 replacement_punctuation_(files_names)
 
 # Compte occurence des mots
+print()
 for file_name in files_names:
     fichier_entrer = "./cleaned" + '/' + file_name + "copie.txt"
     with open(fichier_entrer, 'r') as f:
         contenu = f.read()
-        print(word_occurrences_tf(contenu))
+        print("Le score tf du document", fichier_entrer, "est", word_occurrences_tf(contenu))
+
 
 # idf
-print(idf(files_names))
+print()
+print("Le score idf du corpus est :", idf(files_names))
+print()
 
 # Affiche matrice-tf_idf du corpus
 matrix = TD_IDF_transposed(files_names)
@@ -44,7 +48,7 @@ for item in matrix:
     print(item)
 
 # tokenisation question
-question = input("Veuillez saisir une question")
+question = input("Veuillez saisir une question :")
 word_question = tokenization_question(question)
 print("Les mots de la question sont:", word_question)
 
@@ -58,7 +62,7 @@ print("Le score tf de la question est :", tf_score_question)
 
 # Calcul tf-idf_questions
 vector_tf_idf_question = calculation_vector_question(word_question, files_names)
-print("le vecteur tf-idf de la question est", vector_tf_idf_question)
+print("Le vecteur tf-idf de la question est", vector_tf_idf_question)
 
 # Calcul produit scalaire vecteur
 matrix_non_transposed = tf_idf_non_transposed(files_names)
