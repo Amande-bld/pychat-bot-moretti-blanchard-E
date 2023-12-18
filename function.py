@@ -422,6 +422,7 @@ def afficher_menu():
     print("5. Indiquer le premier président à parler du climat et/ou de l’écologie ")
     print("6. Indique  le(s) mot(s) que tous les présidents ont évoqués hormis les moins importants")
     print("7. Accès au chat-bot")
+    print("8. Quitter")
 
 
 def main(directory, extension):
