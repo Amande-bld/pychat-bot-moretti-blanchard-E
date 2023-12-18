@@ -43,6 +43,10 @@ Partie 2 :
 - scalar_product_calculation calcule le produit scalaire de deux vecteurs
 - calculation_norm_vector nous permet d'obtenir la norme d'un vecteur
 
+Fonction ajoutés :
+
+- another_question : permet de poser une autre question sans a avoir à retourner au programme principal
+
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
 - Le deuxième stock ces mêmes fichiers, mais sans ponctuations et majuscules.

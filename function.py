@@ -366,9 +366,21 @@ def another_question():
         print("Veuillez répondre par Oui ou par Non")
 
 
+def return_to_menu():
+    while True:
+        answer = input("Voulez vous revenir au menu principal ?(Oui/Non)")
+        answer_minuscule = answer.lower()
+        if answer_minuscule == "oui":
+            return True
+        elif answer_minuscule == "non":
+            return False
+        else:
+            print("Veuillez répondre par Oui ou par Non")
+
+
 
 def afficher_menu():
-    print("Bienvenue dans le menu Principal:")
+    print("Bienvenue dans le menu Principal :")
     print("1. Trouver les mots les moins importants")
     print("2. Obtenir les mots avec le score le plus élevé")
     print("3. Indiquer le(s) mot(s)  le(s) plus répété(s) par un président")
@@ -380,20 +392,19 @@ def afficher_menu():
 
 def main(directory, extension):
     files_names = list_of_files(directory, extension)
-
-    while True:
+    return_menu = True
+    while return_menu:
         afficher_menu()
         choix = input("Choisissez une option du menu (1-8): ")
 
         if choix == "1":
-            print()
-            print("Les mots les moins importants sont :", non_important_words_doc(files_names))
-            print()
+            print("\nLes mots les moins importants sont :", non_important_words_doc(files_names), "\n")
+
 
         elif choix == "2":
             td_idf_matrix = _matrix = TD_IDF_transposed(files_names)
             important_words = most_important_word(td_idf_matrix)
-            print("Les mots les plus importants sont :", important_words)
+            print("\nLes mots les plus importants sont :", important_words, "\n")
 
         elif choix == "3":
             president = ['Chirac', 'Giscard dEstaing', 'Hollande', 'Macron', 'Mitterrand', 'Sarkozy']
@@ -413,7 +424,7 @@ def main(directory, extension):
             sort_word_count = sort_words(word_count, files_names)
             most_repetated = words_more_repeat(sort_word_count)
             print("Le(s) mot(s) le(s) plus répété(s) par le président", president_last_name,
-                  " hormis les mots non importants sont : ", most_repetated)
+                  " hormis les mots non importants sont : ", most_repetated, "\n")
 
 
 
@@ -429,7 +440,7 @@ def main(directory, extension):
             most_repeated_president = list(president_speak_about_the_most_topic(files_names, target_word, mention))
 
             print("Le président qui a répéter le plus de fois le mot", target_word, 'est le président',
-                  most_repeated_president[0])
+                  most_repeated_president[0], "\n")
 
 
         elif choix == "5":
@@ -455,9 +466,13 @@ def main(directory, extension):
                 print(sentence)
                 continue_question = another_question()
         elif choix == "7":
-            print("Au revoir")
+            print("Au revoir,vous avez quitter le programme")
+            break
         else:
             print("Veuillez choisir un chiffre entre 1-7")
+        return_menu = return_to_menu()
+        if return_menu == False:
+            print("Au revoir, vous avez quitter le programme")
 
 
 # Partie projet 2 :
