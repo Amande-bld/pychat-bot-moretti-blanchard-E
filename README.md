@@ -47,6 +47,12 @@ Partie 2 :
 - most_important_words_in_question calcule le mot le plus important de la question, qui en général correspond au thème de la question posée
 - generation_question retourne la réponse la plus pertinente à la question posée
 
+Fonction ajoutés :
+
+- another_question : permet de poser une autre question sans a avoir à retourner au programme principal
+- return_to_menu : permet de demander à l'utilisateur si il veux revenir au menu principal après exécution de la
+  fonctionalité demandé
+
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
 - Le deuxième stock ces mêmes fichiers, mais sans ponctuations et majuscules.
