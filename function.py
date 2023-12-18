@@ -353,8 +353,7 @@ def first_president_to_mention_topic(files_names, target_words):
     return first_mention
 
 
-
-
+# fonctionalité qui permet de proposer une nouvelle question apres avoir traiter la première
 def another_question():
     answer = input("Voulez vous poser une autre question ? (Oui/Non)")
     answer_minuscule = answer.lower()
@@ -366,6 +365,7 @@ def another_question():
         print("Veuillez répondre par Oui ou par Non")
 
 
+# Fonctionlaité qui permet retourner au menu après éxecution de la fonctionalité
 def return_to_menu():
     while True:
         answer = input("Voulez vous revenir au menu principal ?(Oui/Non)")
