@@ -46,6 +46,8 @@ Partie 2 :
 Fonction ajoutés :
 
 - another_question : permet de poser une autre question sans a avoir à retourner au programme principal
+- return_to_menu : permet de demander à l'utilisateur si il veux revenir au menu principal après exécution de la
+  fonctionalité demandé
 
 Les dossiers speeches & cleaned
 - Le premier stock tous les fichiers que nous utilisons dans notre programme
